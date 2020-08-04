@@ -30,10 +30,14 @@ function TeacherList() {
 
                 </form>
             </PageHeader>
-            <main>
 
+            <main>
+                <TeacherItem />
+                <TeacherItem />
+                <TeacherItem />
                 <TeacherItem />
             </main>
+            
         </div>
     )
 }
