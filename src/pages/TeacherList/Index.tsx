@@ -1,18 +1,44 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import './styles.css'
 import PageHeader from '../../components/PageHeader';
 import TeacherItem from '../../components/TeacherItem';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
+import api from '../../services/api';
 
 
 function TeacherList() {
+
+	const [teachers, setTeachers] = useState([]);
+
+	const [subject, setSubject] = useState('');
+	const [week_day, setWeekDay] = useState('');
+	const [time, setTime] = useState('');
+
+
+	async function handleSearchClass(e:FormEvent){
+		e.preventDefault();
+
+	const resposta = await api.get('classes',{
+			params:{
+					subject,
+					week_day,
+					time
+				  }
+		});
+
+		setTeachers(resposta.data)
+
+	}
+
 	return (
 		<div id="page-teacher-list" className="container">
 			<PageHeader title="Esses são os proffys disponiveis">
-				<form id="search-teachers">
+				<form id="search-teachers" onSubmit={handleSearchClass}>
 					<Select
-						name="subject"
+						name={subject}
+						value={subject}
+						onChange={(e) => { setSubject(e.target.value) }}
 						label="Materia"
 						options={[
 							{ value: 'Artes', label: 'Artes' },
@@ -24,8 +50,10 @@ function TeacherList() {
 					/>
 
 					<Select
-						name="subject"
-						label="Materia"
+						name={week_day}
+						value={week_day}
+						onChange={(e) => { setWeekDay(e.target.value) }}
+						label="Dia da Semana"
 						options={[
 							{ value: '0', label: 'Domingo' },
 							{ value: '1', label: 'Segunda-feira' },
@@ -40,18 +68,22 @@ function TeacherList() {
 
 					<Input
 						type="time"
-						name="time"
+						onChange={(e) => { setTime(e.target.value) }}
+						name={time}
 						label="Hora"
 					/>
+
+					<button type="submit">Buscar</button>
 
 				</form>
 			</PageHeader>
 
 			<main>
-				<TeacherItem />
-				<TeacherItem />
-				<TeacherItem />
-				<TeacherItem />
+				{teachers.map(teacher =>{
+					return(
+						<TeacherItem key={teacher} teacher={teacher} />
+					)
+				})}
 			</main>
 
 		</div>

@@ -15,37 +15,35 @@ interface TeacherItemProps {
     teacher: Teacher
 }
 
-const TeacherItem = () => {
+const TeacherItem:React.FC<TeacherItemProps> = ({teacher}) => {
     return (
         <article className="teacher-item">
             <header>
                 <div>
-                    <img src="https://avatars3.githubusercontent.com/u/6974831?s=460&u=1a4fe9ab2da3948723361308911fd55a36b757d2&v=4" alt="Diego Souza" />
+                    <img src={teacher.avatar} alt={teacher.name} />
                     <strong>
-                        Diego Souza
+                        {teacher.name}
                     </strong>
                     <span>
-                        ED FISICA
+                        {teacher.subject}
                     </span>
                 </div>
             </header>
 
             <p>
-                Mussum Ipsum, cacilds vidis litro abertis. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose
-                    <br /><br />
-                    HAHAHAHAHAH AHHKDJS KDJSKDJKSJDSKD
+                    {teacher.bio}
                     </p>
             <footer>
                 <p>
                     Preço/hora
                         <strong>
-                        R$ 80,00
+                        R$ {teacher.cost}
                         </strong>
                 </p>
-                <button type="button">
+                <a target="_blank" rel="noopener noreferrer" href={`https://wa.me/${teacher.whatsapp}`}>
                     <img src={whatsappIcon} alt="Whatsapp" />
                         Entrar em contato
-                        </button>
+                        </a>
             </footer>
         </article>
     )
